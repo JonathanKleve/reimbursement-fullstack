@@ -1,0 +1,8 @@
+<div style="padding: 20px; font-family: sans-serif;">
+  <h2>Active Users from Database</h2>
+  <ul>
+    <li *ngFor="let user of users">
+      <strong>ID:</strong> {{ user.id }} | <strong>Name:</strong> {{ user.username }}
+    </li>
+  </ul>
+</div>
