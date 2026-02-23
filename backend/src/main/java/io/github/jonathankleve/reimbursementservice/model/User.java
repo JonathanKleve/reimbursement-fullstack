@@ -1,4 +1,4 @@
-package io.github.jonathankleve.reimbursementservice;
+package io.github.jonathankleve.reimbursementservice.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
