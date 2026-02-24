@@ -1,0 +1,35 @@
+<h2>Reimbursement Requests</h2>
+
+<div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">
+  <h3>Submit New Request</h3>
+  <form (ngSubmit)="submitRequest()">
+    <input type="text" name="description" [(ngModel)]="newReimbursement.description" placeholder="Description">
+    <input type="number" name="amount" [(ngModel)]="newReimbursement.amount" placeholder="Amount">
+    <button type="submit">Submit Request</button>
+  </form>
+</div>
+
+@if (reimbursements.length > 0) {
+  <table border="1">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (r of reimbursements; track r.id) {
+        <tr>
+          <td>{{ r.id }}</td>
+          <td>{{ r.description }}</td>
+          <td>{{ r.amount | currency }}</td>
+          <td>{{ r.status }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+} @else {
+  <p>No reimbursement requests found.</p>
+}
