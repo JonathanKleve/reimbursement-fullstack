@@ -1,3 +1,14 @@
+<header style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #f4f4f4;">
+  <div>
+    @if (authService.getCurrentUser(); as user) {
+      <span>Welcome, <strong>{{ user.username }}</strong> ({{ user.role }})</span>
+    }
+  </div>
+  <button (click)="logout()">Logout</button>
+</header>
+
+<hr>
+
 <h2>Reimbursement Requests</h2>
 
 <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">

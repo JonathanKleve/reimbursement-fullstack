@@ -1,13 +1,15 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReimbursementService } from '../../services/reimbursement';
 import { Reimbursement } from '../../models/reimbursement';
+import { AuthService } from '../../services/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reimbursement-list',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe, FormsModule],
+  imports: [ CurrencyPipe, FormsModule],
   templateUrl: './reimbursement-list.html',
   styleUrl: './reimbursement-list.css'
 })
@@ -16,13 +18,20 @@ export class ReimbursementList implements OnInit {
 
   constructor(
     private service: ReimbursementService,
-    private cdr: ChangeDetectorRef
-  ) {}
+    public authService: AuthService,
+    private cdr: ChangeDetectorRef,
+    private router: Router
+  ) {
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser) {
+      this.newReimbursement.author = currentUser;
+    }
+  }
 
   newReimbursement: any = {
     description: '',
     amount: 0,
-    author: { id: 2 } //hardcoding the only user in the database for now
+    author: null //placeholder
   };
 
   ngOnInit() {
@@ -33,7 +42,6 @@ export class ReimbursementList implements OnInit {
   loadReimbursements() {
   this.service.getReimbursements().subscribe({
     next: (data) => {
-      console.log("Setting reimbursements to:", data);
       this.reimbursements = [...data];
       this.cdr.detectChanges();         //Manually trigger a UI refresh because async data arrival sometimes misses the standard angular change detection
     },
@@ -55,7 +63,12 @@ export class ReimbursementList implements OnInit {
     this.newReimbursement = { 
       description: '', 
       amount: 0, 
-      author: { id: 2 } // Keep the ID so the next submission knows who the user is
+      author: this.authService.getCurrentUser() // Keep the ID so the next submission knows who the user is
     };
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

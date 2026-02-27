@@ -1,0 +1,12 @@
+<div class="login-container">
+  <h2>Login</h2>
+    @if (errorMessage) {
+        <div class="error-box">
+            {{ errorMessage }}
+        </div>
+  }
+  <input [(ngModel)]="credentials.username" placeholder="Username" type="text">
+  <input [(ngModel)]="credentials.password" placeholder="Password" type="password">
+  
+  <button (click)="onLogin()">Sign In</button>
+</div>
