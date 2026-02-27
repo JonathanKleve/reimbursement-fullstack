@@ -10,3 +10,7 @@ Another interesting note, I was unaware of (or had forgotten) Spring annotations
 I supposse I had forgotten that SQL can enforce and allow you to implement referential integrity aspects. 
 My past experience with SQL only touched on the surface level aspects of SQL i.e. query syntax with only brief mentions of the deeper functionality and database engineering aspects.
 Another note/annoyance, Typescript and Angular seem to be moving towards less boilerplate syntax so hopefully there will be a future where we do not have to declare angular imports twice.
+
+Feb 27, 2026
+
+I wish Visual Studio Code had a refactor button like IntelliJ Idea does for renaming classes instead of manually having to check everywhere it's referenced. I imagine there might be a plugin for this feature but plugins are an entire rabbit hole I am avoiding for the time being.
