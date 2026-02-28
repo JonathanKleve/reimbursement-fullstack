@@ -5,8 +5,9 @@
             {{ errorMessage }}
         </div>
   }
-  <input [(ngModel)]="credentials.username" placeholder="Username" type="text">
-  <input [(ngModel)]="credentials.password" placeholder="Password" type="password">
-  
-  <button (click)="onLogin()">Sign In</button>
+  <form (ngSubmit)="onLogin()">
+  <input type="text" [(ngModel)]="credentials.username" name="username">
+  <input type="password" [(ngModel)]="credentials.password" name="password">
+  <button type="submit">Log In</button>
+</form>
 </div>

@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-reimbursement-list',
   standalone: true,
-  imports: [ CurrencyPipe, FormsModule],
+  imports: [ CurrencyPipe, FormsModule ],
   templateUrl: './reimbursement-list.html',
   styleUrl: './reimbursement-list.css'
 })
@@ -65,6 +65,15 @@ export class ReimbursementList implements OnInit {
       amount: 0, 
       author: this.authService.getCurrentUser() // Keep the ID so the next submission knows who the user is
     };
+  }
+
+  updateStatus(id: number, newStatus: string) {
+    this.service.updateStatus(id, newStatus).subscribe({
+      next: (updated) => {
+        this.loadReimbursements();
+      },
+      error: (err) => console.error("Update failed:", err)
+    });
   }
 
   logout() {

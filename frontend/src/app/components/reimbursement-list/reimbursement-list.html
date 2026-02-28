@@ -28,6 +28,9 @@
         <th>Description</th>
         <th>Amount</th>
         <th>Status</th>
+        @if (authService.getCurrentUser()?.role === 'MANAGER') {
+          <th>Actions</th>
+        }
       </tr>
     </thead>
     <tbody>
@@ -36,7 +39,17 @@
           <td>{{ r.id }}</td>
           <td>{{ r.description }}</td>
           <td>{{ r.amount | currency }}</td>
-          <td>{{ r.status }}</td>
+          <td [class]="'status-' + r.status.toLowerCase()"> {{ r.status }}</td>
+          @if (authService.getCurrentUser()?.role === 'MANAGER') {
+            <td>
+              @if(r.status === 'PENDING') {
+                <button (click)="updateStatus(r.id!, 'APPROVED')">Approve</button>
+                <button (click)="updateStatus(r.id!, 'DENIED')">Deny</button>
+              } @else {
+                <span>Completed</span>
+              }
+            </td>
+          }
         </tr>
       }
     </tbody>

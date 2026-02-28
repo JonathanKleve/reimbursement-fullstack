@@ -25,7 +25,7 @@ export class Login {
       .subscribe({
         next: (user) => {
           this.authService.setCurrentUser(user);
-          this.router.navigate(['/reimbursements']); // Send them to the list!
+          this.router.navigate(['/reimbursements']); // Send them to the list
         },
         error: (err) => {
           this.errorMessage = 'Invalid username or password';
