@@ -1,6 +1,7 @@
 # Reimbursement System Dev Log
 
 ## Feb 24, 2026
+
 * Encountered annoying bug with getting the reimbursement table to display or update when page is refreshed or submit button was clicked.
 * Apparently, Angular's default handler, Zone.js can miss ticks during async operations. Manually triggering ChangeDetectorRef solved the issue so I will need to keep that in mind.
 * The majority of my time spent debugging thus far (on this and prior projects) feels as if, even if not factually, to have been tracking down the source of runtime errors boiling down to finding a way to manually force a refresh/update to the UI. Alternatively, these errors end up being caused by a typo in a variable type or an error in a path - often due to (improperly executed on my part) refactoring when moving something into a subfolder/subpackage.
@@ -12,3 +13,7 @@
 
 * Encountered a minor "Chicken and egg" initialization error when implenting authService into reimbursement-list component. I hadn't realized that literal object declarations are processed before the constructor for imported objects, even if the constructor is before the literal object declaration in the code.
 * I wish Visual Studio Code had a refactor button like IntelliJ Idea does for renaming classes instead of manually having to check everywhere it's referenced. I imagine there might be a plugin for this feature but plugins are an entire rabbit hole I am avoiding for the time being.
+
+## March 2, 2026
+
+* Visual Studio Code "rename" button is not quite as robust as the refactor button in IntelliJ however it is still very helpful, I wasn't assuming as much automated assistance to it given the unassuming name, a standard one for the options in the right click menu.
