@@ -1,0 +1,41 @@
+<div class="user-container">
+  <h2>User Management</h2>
+  
+  @if (users.length > 0) {
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of users; track user.id) {
+          <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>
+              <span class="role-badge" [class.manager]="user.role === 'MANAGER'">
+                {{ user.role }}
+              </span>
+            </td>
+            <td>
+              <button class="btn-edit">Edit</button>
+              <button class="btn-delete">Delete</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="4" class="empty-msg">No users found in the system.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  } @else {
+    <div class = "loading-spinner">
+      <p>Loading user database...</p>
+    </div>
+  }
+</div>

@@ -1,0 +1,46 @@
+.user-container {
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.user-table th, .user-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.user-table th {
+  background-color: #f8f9fa;
+  color: #333;
+  font-weight: 600;
+}
+
+.role-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  background-color: #e2e3e5;
+}
+
+.role-badge.manager {
+  background-color: #d1ecf1;
+  color: #0c5460;
+  font-weight: bold;
+}
+
+.btn-delete {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-left: 5px;
+}

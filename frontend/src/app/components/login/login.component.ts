@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth';
+import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   imports: [FormsModule],
-  templateUrl: './login.html',
-  styleUrl: './login.css',
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css',
 })
-export class Login {
+export class LoginComponent {
   credentials = { username: '', password: '' };
   errorMessage = '';
 

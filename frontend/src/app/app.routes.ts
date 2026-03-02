@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-import { UserList } from './components/user-list/user-list';
-import { ReimbursementList } from './components/reimbursement-list/reimbursement-list';
+import { UserListComponent } from './components/user-list/user-list.component';
+import { ReimbursementListComponent } from './components/reimbursement-list/reimbursement-list.component';
 import { authGuard } from './guards/auth.guard';
-import { Login } from './components/login/login';
+import { LoginComponent } from './components/login/login.component';
 
 export const routes: Routes = [
-  {path: 'login', component: Login },
-  { path: 'users', component: UserList, canActivate: [authGuard] },
-  { path: 'reimbursements', component: ReimbursementList, canActivate: [authGuard] },
+  {path: 'login', component: LoginComponent },
+  { path: 'users', component: UserListComponent, canActivate: [authGuard] },
+  { path: 'reimbursements', component: ReimbursementListComponent, canActivate: [authGuard] },
   { path: '', redirectTo: 'login', pathMatch: 'full' } // Default to the login page
 ];

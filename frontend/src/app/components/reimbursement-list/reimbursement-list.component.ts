@@ -1,19 +1,19 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ReimbursementService } from '../../services/reimbursement';
-import { Reimbursement } from '../../models/reimbursement';
-import { AuthService } from '../../services/auth';
+import { ReimbursementService } from '../../services/reimbursement.service';
+import { Reimbursement } from '../../models/reimbursement.model';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reimbursement-list',
   standalone: true,
   imports: [ CurrencyPipe, FormsModule ],
-  templateUrl: './reimbursement-list.html',
-  styleUrl: './reimbursement-list.css'
+  templateUrl: './reimbursement-list.component.html',
+  styleUrl: './reimbursement-list.component.css'
 })
-export class ReimbursementList implements OnInit {
+export class ReimbursementListComponent implements OnInit {
   reimbursements: Reimbursement[] = [];
 
   constructor(
