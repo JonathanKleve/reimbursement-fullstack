@@ -1,26 +1,24 @@
 package io.github.jonathankleve.reimbursementservice.controller;
 
 import io.github.jonathankleve.reimbursementservice.model.Reimbursement;
-import io.github.jonathankleve.reimbursementservice.repository.ReimbursementRepository;
+import io.github.jonathankleve.reimbursementservice.service.ReimbursementService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/reimbursements")
 @CrossOrigin(origins = "http://localhost:4200", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PATCH, RequestMethod.PUT, RequestMethod.DELETE})
 public class ReimbursementController {
-    private final ReimbursementRepository reimbursementRepository;
+    private final ReimbursementService reimbursementService;
 
-    public ReimbursementController(ReimbursementRepository reimbursementRepository) {this.reimbursementRepository = reimbursementRepository;}
+    public ReimbursementController(ReimbursementService reimbursementService) {this.reimbursementService = reimbursementService;}
 
     @PostMapping
     public Reimbursement create(@RequestBody Reimbursement r) {
         //TODO: add user verification/matching and input cleaning
-        return reimbursementRepository.save(r);
+        return reimbursementService.create(r);
     }
 
     @GetMapping
@@ -28,30 +26,15 @@ public class ReimbursementController {
         @RequestParam(required = false) Integer authorId,
         @RequestParam(required = false) String role) {
 
-        if ("MANAGER".equals(role)) {
-            return reimbursementRepository.findAll();   //Managers see all requests
-        } else if (authorId != null) {
-            return reimbursementRepository.findByAuthorId(authorId);    //employees only see their own
-        }
-
-        return new ArrayList<>();
+        return reimbursementService.getReimbursements(authorId, role);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<?> updateStatus(
-        @PathVariable int id,
+        @PathVariable Integer id,
         @RequestBody StatusUpdateRequest request) {
 
-        Optional<Reimbursement> optionalReimb = reimbursementRepository.findById(id);
-
-        if (optionalReimb.isPresent()) {
-            Reimbursement r = optionalReimb.get();
-            r.setStatus(request.status);
-            reimbursementRepository.save(r);
-            return ResponseEntity.ok(r);
-        } else {
-            return ResponseEntity.status(404).body("Reimbursement not found with ID: " + id);
-        }
+        return reimbursementService.updateStatus(id, request);
     }
 
     public static class StatusUpdateRequest {

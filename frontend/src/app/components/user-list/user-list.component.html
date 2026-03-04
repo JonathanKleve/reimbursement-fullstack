@@ -1,7 +1,13 @@
 <div class="user-container">
   <h2>User Management</h2>
-  
-  @if (users.length > 0) {
+
+  @if (isLoading){
+    <div class = "loading-spinner">
+      <p>Loading user database... Please click 'User Management' if the list doesn't appear.</p>
+    </div>
+  } @else if (errorMessage) {
+    <div class="error-box">{{ errorMessage }}</div>
+  } @else {
     <table class="user-table">
       <thead>
         <tr>
@@ -23,7 +29,7 @@
             </td>
             <td>
               <button class="btn-edit">Edit</button>
-              <button class="btn-delete">Delete</button>
+              <button class="btn-delete" (click)="deleteUser(user.id!)">Delete</button>
             </td>
           </tr>
         } @empty {
@@ -33,9 +39,5 @@
         }
       </tbody>
     </table>
-  } @else {
-    <div class = "loading-spinner">
-      <p>Loading user database...</p>
-    </div>
-  }
+  } 
 </div>

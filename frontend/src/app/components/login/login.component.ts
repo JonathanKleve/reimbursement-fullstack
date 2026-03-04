@@ -24,7 +24,7 @@ export class LoginComponent {
     this.http.post<any>('http://localhost:8080/api/login', this.credentials)
       .subscribe({
         next: (user) => {
-          this.authService.setCurrentUser(user);
+          this.authService.login(user);
           this.router.navigate(['/reimbursements']); // Send them to the list
         },
         error: (err) => {

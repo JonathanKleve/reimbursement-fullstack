@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface ReimbursementRepository extends JpaRepository<Reimbursement, Integer> {
-    List<Reimbursement> findByAuthorId(int id);
+    List<Reimbursement> findByAuthorId(Integer id);
 }

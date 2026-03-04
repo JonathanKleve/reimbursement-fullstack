@@ -2,14 +2,14 @@
   <div class="nav-brand">Reimbursement System</div>
   
   <div class="nav-links">
-    @if (authService.getCurrentUser()) {
+    @if (authService.currentUser$ | async; as user) {
       <a routerLink="/reimbursements" routerLinkActive="active-link">My Requests</a>
       
-      @if (authService.getCurrentUser()?.role === 'MANAGER') {
+      @if (user.role === 'MANAGER') {
         <a routerLink="/users" routerLinkActive="active-link">User Management</a>
       }
       
-      <span class="welcome-text">Welcome, {{ authService.getCurrentUser()?.username }}</span>
+      <span class="welcome-text">Welcome, {{ user.username }}</span>
       <button (click)="logout()" class="logout-btn">Logout</button>
     }
   </div>
