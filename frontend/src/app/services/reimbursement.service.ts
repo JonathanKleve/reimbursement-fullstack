@@ -23,7 +23,7 @@ export class ReimbursementService {
     }
 
     return this.http.get<Reimbursement[]>(
-      `http://localhost:8080/api/reimbursements?authorId=${user.id}&role=${user.role}`
+      `${this.apiUrl}?authorId=${user.id}&role=${user.role}`
     );
   }
 
@@ -31,8 +31,8 @@ export class ReimbursementService {
     return this.http.post<Reimbursement>(this.apiUrl, reimbursement);
   }
 
-  updateStatus(id: number, newStatus: string) {
+  updateStatus(id: number, newStatus: string): Observable<Reimbursement> {
     // send an object { status: 'APPROVED' } which matches the Java helper class
-    return this.http.patch(`http://localhost:8080/api/reimbursements/${id}`, {status: newStatus});
+    return this.http.patch<Reimbursement>(`${this.apiUrl}/${id}`, {status: newStatus});
   }
 }

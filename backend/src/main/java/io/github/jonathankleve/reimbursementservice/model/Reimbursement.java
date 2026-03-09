@@ -17,7 +17,7 @@ public class Reimbursement {
 
     private String status = "PENDING";
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)     //explicitly eager rather than lazy for the dashboard
     @JoinColumn(name = "user_id", nullable = false)
     private User author;
 }

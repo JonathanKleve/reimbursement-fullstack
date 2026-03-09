@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user.model';
+import { FormsModule } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.css',
 })
@@ -14,22 +16,16 @@ export class UserListComponent implements OnInit {
   users: User[] = [];
   errorMessage: string = '';
   isLoading: boolean = true;
+  editingUser: User | null = null;
+  showCreateForm: boolean = false;
+  newUser: any = {username: '', password: '', role: 'EMPLOYEE'};
+  searchText: string = '';
 
-  constructor(private userService: UserService, private authService: AuthService) {}
+  constructor(private userService: UserService, private authService: AuthService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    const user = this.authService.getCurrentUser();
-    if (user && user.role === 'MANAGER') {
-      this.loadUsers();
-    } else {
-      this.isLoading = false;
-      this.errorMessage = "Please click 'User Management' to referesh the view.";
-    }
-    /*
     this.authService.currentUser$.subscribe({
       next: (user) => {
-        console.log("User Recieved in component:", user);
-
         if(user && user.role === 'MANAGER') {
           this.loadUsers();
         } else if (user && user.role !== 'MANAGER') {
@@ -38,17 +34,20 @@ export class UserListComponent implements OnInit {
         }
       }
     });
-    */
+    
   }
 
-  loadUsers(): void {
-    this.isLoading = true;
+  loadUsers(silent: boolean = false): void {
+    if (!silent) {
+      this.isLoading = true;
+    }
     this.errorMessage = '';
 
     this.userService.getUsers().subscribe({
       next: (data) => {
         this.users = data;
         this.isLoading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error fetching users: ', err);
@@ -63,7 +62,7 @@ export class UserListComponent implements OnInit {
       this.userService.deleteUser(id).subscribe({
         next: () => {
           console.log(`User ${id} deleted successfully`);
-          this.loadUsers();
+          this.loadUsers(true);
         },
         error: (err) => {
           console.error('Delete failed', err);
@@ -72,4 +71,53 @@ export class UserListComponent implements OnInit {
       });
     }
   }
+
+  editUser(user: User): void {
+    this.editingUser = { ...user };
+  }
+
+  cancelEdit(): void {
+    this.editingUser = null;
+  }
+
+  saveUserUpdate(): void {
+    if (this.editingUser && this.editingUser.id) {
+      this.userService.updateUser(this.editingUser.id, this.editingUser).subscribe({
+        next: (updated) => {
+          this.loadUsers(true);
+          this.editingUser = null;
+          this.cdr.detectChanges();
+        },
+        error: (err) => console.error("Update failed", err)
+      });
+    }
+  }
+
+  submitNewUser(): void {
+    if (!this.newUser.username || !this.newUser.password) {
+      alert("Username and Password are required.");
+      return;
+    }
+
+    this.userService.createUser(this.newUser).subscribe({
+      next: (created) => {
+        this.loadUsers(true);
+        this.resetNewUserForm();
+        this.showCreateForm = false;
+      },
+      error: (err) => alert("Failed to create user. Username might already exist.")
+    });
+  }
+
+  resetNewUserForm(): void {
+    this.newUser = { username: '', password: '', role: 'EMPLOYEE' };
+  }
+
+  get filteredUsers(): User[] {
+    return this.users.filter(user => 
+      user.username.toLowerCase().includes(this.searchText.toLowerCase()) || 
+      user.role.toLowerCase().includes(this.searchText.toLowerCase())
+    );
+  }
+
 }

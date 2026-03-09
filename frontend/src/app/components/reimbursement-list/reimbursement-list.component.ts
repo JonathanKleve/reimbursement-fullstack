@@ -22,17 +22,10 @@ export class ReimbursementListComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private router: Router
   ) {
-    const currentUser = this.authService.getCurrentUser();
-    if (currentUser) {
-      this.newReimbursement.author = currentUser;
-    }
+    this.resetForm(); //initialize newReimbursement once the constructor has finished
   }
 
-  newReimbursement: any = {
-    description: '',
-    amount: 0,
-    author: null //placeholder
-  };
+  newReimbursement: any;
 
   ngOnInit() {
     this.loadReimbursements();
@@ -50,6 +43,11 @@ export class ReimbursementListComponent implements OnInit {
 }
 
   submitRequest() {
+    if(!this.newReimbursement.description || this.newReimbursement.amount <= 0) {
+      alert("Please provide a description and an amount greater than $0.");
+      return;
+    }
+
     this.service.createReimbursement(this.newReimbursement).subscribe({
       next: (response) => {
         this.loadReimbursements(); // Pull the new list from Java

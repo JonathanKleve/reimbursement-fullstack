@@ -30,4 +30,26 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    public User updateUser(Long id, User userDetails){
+        User existing = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        existing.setUsername(userDetails.getUsername());
+        existing.setRole(userDetails.getRole());
+
+        return userRepository.save(existing);
+    }
+
+    public User createUser(User user) {
+
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new RuntimeException("Username '" + user.getUsername() + "' is already taken.");
+        }
+
+        if (user.getRole() == null) {   //assign a default role of employee
+            user.setRole("EMPLOYEE");
+        }
+        return userRepository.save(user);
+    }
 }

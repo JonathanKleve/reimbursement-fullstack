@@ -1,5 +1,35 @@
 <div class="user-container">
   <h2>User Management</h2>
+  <button (click)="showCreateForm = !showCreateForm">{{ showCreateForm ? 'Cancel' : 'Add New User' }}</button>
+
+  @if (showCreateForm) {
+    <div class = "create-container" style="border: 1px solid #28a745; padding: 15px; margin-bottom: 20px;">
+      <h3>Create New Employee Account</h3>
+      <form (ngSubmit)="submitNewUser()">
+        <input [(ngModel)]="newUser.username" name="username" placeholder="Username" required>
+        <input [(ngModel)]="newUser.password" name="password" type="password" placeholder="Password" required>
+
+        <select [(ngModel)]="newUser.role" name="role">
+          <option value="EMPLOYEE">EMPLOYEE</option>
+          <option value="MANAGER">MANAGER</option>
+        </select>
+        <button type="submit" style="background-color: #28a745; color: white;">Create User</button>
+      </form>
+    </div>
+  }
+
+  @if (editingUser) {
+  <div class="edit-container" style="border: 2px solid #007bff; padding: 15px; margin-bottom: 20px;">
+    <h3>Editing User: {{editingUser.username}}</h3>
+    <input [(ngModel)]="editingUser.username" name="editUsername" placeholder="Username">
+    <select [(ngModel)]="editingUser.role">
+      <option value="EMPLOYEE">EMPLOYEE</option>
+      <option value="MANAGER">MANAGER</option>
+    </select>
+    <button (click)="saveUserUpdate()">Save Changes</button>
+    <button (click)="cancelEdit()">Cancel</button>
+  </div>
+}
 
   @if (isLoading){
     <div class = "loading-spinner">
@@ -8,6 +38,21 @@
   } @else if (errorMessage) {
     <div class="error-box">{{ errorMessage }}</div>
   } @else {
+    <div class="search-container" style="margin-bottom: 15px;">
+    <input 
+      type="text" 
+      [(ngModel)]="searchText" 
+      placeholder="Search by username or role..."
+      style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ddd;"
+    >
+    @if (searchText) {
+      <button class="clear-btn" (click)="searchText = ''" title="Clear search">
+        &times;
+      </button>
+    }
+    
+    </div>
+
     <table class="user-table">
       <thead>
         <tr>
@@ -18,7 +63,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (user of users; track user.id) {
+        @for (user of filteredUsers; track user.id) {
           <tr>
             <td>{{ user.id }}</td>
             <td>{{ user.username }}</td>
@@ -28,16 +73,16 @@
               </span>
             </td>
             <td>
-              <button class="btn-edit">Edit</button>
+              <button class="btn-edit" (click)="editUser(user)">Edit</button>
               <button class="btn-delete" (click)="deleteUser(user.id!)">Delete</button>
             </td>
           </tr>
         } @empty {
           <tr>
-            <td colspan="4" class="empty-msg">No users found in the system.</td>
+            <td colspan="4" style="text-align: center;">No matching users found.</td>
           </tr>
         }
       </tbody>
     </table>
-  } 
+  }
 </div>

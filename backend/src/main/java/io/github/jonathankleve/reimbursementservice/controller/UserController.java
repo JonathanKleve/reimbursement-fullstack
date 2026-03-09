@@ -35,4 +35,21 @@ public class UserController {
             return ResponseEntity.status(409).body(e.getMessage());
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
+        User updatedUser = userService.updateUser(id, userDetails);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> createUser(@RequestBody User user) {
+        try {
+            User savedUser = userService.createUser(user);
+            return ResponseEntity.status(201).body(savedUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(409).body(e.getMessage());
+        }
+
+    }
 }

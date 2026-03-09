@@ -1,3 +1,32 @@
 .status-pending { color: orange; font-weight: bold; }
 .status-approved { color: green; font-weight: bold; }
 .status-denied { color: red; font-weight: bold; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: white;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+.badge {
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  text-transform: uppercase;
+}
