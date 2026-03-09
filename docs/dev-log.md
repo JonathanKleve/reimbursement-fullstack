@@ -17,3 +17,7 @@
 ## March 2, 2026
 
 * Visual Studio Code "rename" button is not quite as robust as the refactor button in IntelliJ however it is still very helpful, I wasn't assuming as much automated assistance to it given the unassuming name, a standard one for the options in the right click menu.
+
+## March 9, 2026
+
+* Applied the same fix using ChangeDetectorReference to the User-List component. I tried another means to attempt to force the program to wait until everything was ready before attempting to reload the UI elements however it seems my application is loading too quickly in it's current, very lightweight state.
