@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReimbursementService } from '../../services/reimbursement.service';
@@ -15,12 +16,19 @@ import { Router } from '@angular/router';
 })
 export class ReimbursementListComponent implements OnInit {
   reimbursements: Reimbursement[] = [];
+  searchText: string = '';
+  statusFilter: string = 'ALL'; //default to show everything
+
+  isUploading: boolean = false;
+
+  selectedReimbursement: Reimbursement | null = null;
 
   constructor(
     private service: ReimbursementService,
     public authService: AuthService,
     private cdr: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) {
     this.resetForm(); //initialize newReimbursement once the constructor has finished
   }
@@ -77,5 +85,53 @@ export class ReimbursementListComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+
+  get filteredReimbursements(): Reimbursement[] {
+    return this.reimbursements.filter(r => {
+      const matchesSearch = r.description.toLowerCase().includes(this.searchText.toLowerCase());
+
+      const matchesStatus = this.statusFilter === 'ALL' || r.status === this.statusFilter;
+
+      return matchesSearch && matchesStatus;
+    });
+  }
+
+  onFileSelected(event: any): void {
+    this.isUploading = true;
+
+    const file: File = event.target.files[0];
+
+    if (file && file.size > 2097152) {
+      alert("File is too large! Please upload a file smaller than 2MB.");
+      event.target.value = '';
+      return;
+    }
+
+    if(file) {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        this.newReimbursement.receiptImage = reader.result as string;
+        this.newReimbursement.receiptType = file.type;
+        this.isUploading = false;
+      };
+
+      //starts the conversion process
+      reader.readAsDataURL(file);
+    }
+  }
+
+  //sanitize any pdfs before saving the data
+  getSafeUrl(base64Data: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(base64Data);
+  }
+
+  openReceipt(reimbursement: Reimbursement): void {
+    this.selectedReimbursement = reimbursement;
+  }
+
+  closeModal(): void {
+    this.selectedReimbursement = null;
   }
 }

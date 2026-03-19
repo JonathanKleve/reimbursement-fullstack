@@ -20,6 +20,7 @@ export class UserListComponent implements OnInit {
   showCreateForm: boolean = false;
   newUser: any = {username: '', password: '', role: 'EMPLOYEE'};
   searchText: string = '';
+  selectedRole: string = 'ALL';
 
   constructor(private userService: UserService, private authService: AuthService, private cdr: ChangeDetectorRef) {}
 
@@ -114,10 +115,16 @@ export class UserListComponent implements OnInit {
   }
 
   get filteredUsers(): User[] {
-    return this.users.filter(user => 
-      user.username.toLowerCase().includes(this.searchText.toLowerCase()) || 
-      user.role.toLowerCase().includes(this.searchText.toLowerCase())
-    );
+    return this.users.filter(user => {
+      //check search text
+      const matchesSearch = user.username.toLowerCase().includes(this.searchText.toLowerCase());
+
+      //check dropdown selection
+      const matchesRole = this.selectedRole === 'ALL' || user.role === this.selectedRole;
+
+      //returns only those that match both
+      return matchesSearch && matchesRole;
+    });
   }
 
 }

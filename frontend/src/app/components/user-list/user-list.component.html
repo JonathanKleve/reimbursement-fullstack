@@ -38,19 +38,27 @@
   } @else if (errorMessage) {
     <div class="error-box">{{ errorMessage }}</div>
   } @else {
-    <div class="search-container" style="margin-bottom: 15px;">
-    <input 
-      type="text" 
-      [(ngModel)]="searchText" 
-      placeholder="Search by username or role..."
-      style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ddd;"
-    >
-    @if (searchText) {
-      <button class="clear-btn" (click)="searchText = ''" title="Clear search">
-        &times;
-      </button>
-    }
-    
+    <div class ="filter-bar" style="display: flex; gap: 10px; margin-bottom: 20px;">
+      <div class="search-wrapper" style="flex: 2;">
+        <input 
+          type="text" 
+          [(ngModel)]="searchText" 
+          placeholder="Search by username..."
+        >
+        @if (searchText) {
+          <button class="clear-btn" (click)="searchText = ''" title="Clear search">
+            &times;
+          </button>
+        }
+      </div>
+
+      <div class="role-filter-wrapper" style="flex: 1;">
+        <select [(ngModel)]="selectedRole" class="role-selected">
+          <option value="ALL">All Roles</option>
+          <option value="EMPLOYEE">Employee</option>
+          <option value="MANAGER">Manager</option>
+        </select>
+      </div>
     </div>
 
     <table class="user-table">

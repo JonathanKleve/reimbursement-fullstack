@@ -15,9 +15,17 @@ public class Reimbursement {
     private Double amount;
     private String description;
 
-    private String status = "PENDING";
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(20) DEFAULT 'PENDING'") //more robust, additional way to enforce default value
+    private Status status = Status.PENDING;
 
     @ManyToOne(fetch = FetchType.EAGER)     //explicitly eager rather than lazy for the dashboard
     @JoinColumn(name = "user_id", nullable = false)
     private User author;
+
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
+    private String receiptImage;
+
+    private String receiptType;
 }

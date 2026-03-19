@@ -7,17 +7,48 @@
   <form (ngSubmit)="submitRequest()">
     <input type="text" name="description" [(ngModel)]="newReimbursement.description" placeholder="Description">
     <input type="number" name="amount" [(ngModel)]="newReimbursement.amount" placeholder="Amount">
-    <button type="submit">Submit Request</button>
+    <label>Attach Receipt (PDF, PNG, JPG):</label>
+    <input type="file" (change)="onFileSelected($event)" accept="image/*,application/pdf">
+    @if (newReimbursement.receiptImage) {
+      <div class="preview">
+        @if (newReimbursement.receiptType === 'application/pdf') {
+          <iframe [src]="getSafeUrl(newReimbursement.receiptImage!)" width="100%" height="500px"></iframe>
+        }
+        @if (newReimbursement.receiptType?.startsWith('image/')) {
+          <img [src]="newReimbursement.receiptData" style="max-width: 100px;">
+        }
+        <button type="button" (click)="newReimbursement.receiptData = ''; newReimbursement.receiptType = ''">
+          Remove
+        </button>
+      </div>
+    }
+    <button type="submit" [disabled]="!newReimbursement.description || !newReimbursement.amount">Submit Request</button>
   </form>
 </div>
 
+<div class="filter-controls" style="display: flex; gap: 10px; margin-bottom: 20px;">
+  <div class="search-wrapper" style="flex: 2;">
+    <input [(ngModel)]="searchText" placeholder="Search by description...">
+  </div>
+
+  <div class="status-wrapper" style="flex: 1;">
+    <select [(ngModel)]="statusFilter" style="width: 100%; padding: 10px; border-radius: 4px;">
+      <option value="ALL">All Statuses</option>
+      <option value="PENDING">Pending Only</option>
+      <option value="APPROVED">Approved Only</option>
+      <option value="DENIED">Denied Only</option>
+    </select>
+  </div>
+</div>
+
 @if (reimbursements.length > 0) {
-  <table border="1">
+  <table class="reimb-table">
     <thead>
       <tr>
         <th>ID</th>
         <th>Description</th>
         <th>Amount</th>
+        <th>Receipt</th>
         <th>Status</th>
         @if (authService.getCurrentUser()?.role === 'MANAGER') {
           <th>Author</th>
@@ -26,11 +57,13 @@
       </tr>
     </thead>
     <tbody>
-      @for (r of reimbursements; track r.id) {
+      @for (r of filteredReimbursements; track r.id) {
         <tr>
           <td>{{ r.id }}</td>
           <td>{{ r.description }}</td>
           <td>{{ r.amount | currency }}</td>
+          <td>@if (r.receiptImage) {
+            <a href="javascript:void(0)" (click)="openReceipt(r)">📄 View Receipt</a>} </td>
           <td [class]="'status-' + r.status.toLowerCase()"> {{ r.status }}</td>
           @if (authService.getCurrentUser()?.role === 'MANAGER') {
             <td>{{ r.author.username }}</td>
@@ -49,4 +82,28 @@
   </table>
 } @else {
   <p>No reimbursement requests found.</p>
+}
+
+@if (selectedReimbursement) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      
+      <h3>Details for Request #{{ selectedReimbursement.id }}</h3>
+      <p><strong>Description:</strong> {{ selectedReimbursement.description }}</p>
+
+      <hr>
+
+      @if (selectedReimbursement.receiptImage) {
+        @if (selectedReimbursement.receiptType === 'application/pdf') {
+          <iframe [src]="getSafeUrl(selectedReimbursement.receiptImage)" width="100%" height="400px"></iframe>
+        } @else {
+          <img [src]="selectedReimbursement.receiptImage" style="width: 100%; max-height: 500px; object-fit: contain;">
+        }
+      } @else {
+        <p>No receipt was attached to this request.</p>
+      }
+
+      <button (click)="closeModal()">Close</button>
+    </div>
+  </div>
 }

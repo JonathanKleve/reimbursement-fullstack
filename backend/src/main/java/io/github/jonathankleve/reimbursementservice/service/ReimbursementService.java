@@ -2,6 +2,7 @@ package io.github.jonathankleve.reimbursementservice.service;
 
 import io.github.jonathankleve.reimbursementservice.controller.ReimbursementController;
 import io.github.jonathankleve.reimbursementservice.model.Reimbursement;
+import io.github.jonathankleve.reimbursementservice.model.Status;
 import io.github.jonathankleve.reimbursementservice.repository.ReimbursementRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,11 @@ public class ReimbursementService {
 
         if (optionalReimb.isPresent()) {
             Reimbursement r = optionalReimb.get();
-            r.setStatus(request.status);
+            try {
+                r.setStatus(Status.valueOf(request.status.toUpperCase()));
+            } catch (IllegalArgumentException | NullPointerException e) {
+                return ResponseEntity.badRequest().body("Invalid status value provided.");
+            }
             reimbursementRepository.save(r);
             return ResponseEntity.ok(r);
         } else {

@@ -6,4 +6,6 @@ export interface Reimbursement {
     description: string;
     status: 'PENDING' | 'APPROVED' | 'DENIED';
     author: User;
+    receiptImage?: string;
+    receiptType?: string;
 }
