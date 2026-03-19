@@ -69,11 +69,21 @@ The API will be available at http://localhost:8080.
 
 ---
 
+---
+
+## Technical Notes
+
+### UI Synchronization & Change Detection
+* **Issue:** Encountered a scenario where the view (HTML table) would not reflect updated data after a successful API call, even though the console confirmed the data was present in the component.
+* **Analysis:** This typically occurs when an asynchronous update happens outside the standard Angular "Zone," causing the framework to miss the state change.
+* **Fix:** Utilized `ChangeDetectorRef.detectChanges()` within the subscription callback to manually trigger a view refresh, ensuring the UI remains in sync with the underlying data model.
+
+### Base64 Encoding Overhead
+* **Note:** Recognized that Base64 encoding increases file size by approximately 33%. To accommodate this, server-side limits in `application.properties` were increased to 3MB to allow for a 2MB raw file upload without request rejection.
+
+---
+
 ### Future Improvements
 * **Cloud Storage Migration:** Moving from Base64 database storage to **AWS S3** or **Google Cloud Storage** for improved scalability.
 * **Analytics Dashboard:** Adding charts (using Chart.js) to visualize spending trends by department or user.
 * **Email Notifications:** Integrating Spring Mail to notify employees automatically when a manager updates their request status.
-
-### Technical Notes
-* **UI Synchronization:** Encountered an issue where the table wouldn't update after API calls despite the data being present in the console. 
-* **Fix:** Implemented `ChangeDetectorRef.detectChanges()` in the subscription callback to force a view refresh.
