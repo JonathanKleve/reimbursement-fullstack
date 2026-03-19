@@ -21,18 +21,9 @@ The UI dynamically adapts based on the authenticated user's permissions:
 ### Tech Stack
 * **Frontend:** Angular 17+ (Standalone Components, Event Binding)
 * **Backend:** Java 17, Spring Boot 3, Spring Data JPA
-* **Database:** MySQL / H2 (Storing Base64 strings as `LONGTEXT`)
+* **Database:** MySQL 8.0+
 
 ---
-
-### Future Improvements
-* **Cloud Storage Migration:** Moving from Base64 database storage to **AWS S3** or **Google Cloud Storage** for improved scalability.
-* **Analytics Dashboard:** Adding charts (using Chart.js) to visualize spending trends by department or user.
-* **Email Notifications:** Integrating Spring Mail to notify employees automatically when a manager updates their request status.
-
-### Technical Notes
-* **UI Synchronization:** Encountered an issue where the table wouldn't update after API calls despite the data being present in the console. 
-* **Fix:** Implemented `ChangeDetectorRef.detectChanges()` in the subscription callback to force a view refresh.
 
 ## Getting Started
 
@@ -41,6 +32,7 @@ The UI dynamically adapts based on the authenticated user's permissions:
 * **Node.js** (v18.x or v20.x recommended) and **npm**
 * **Angular CLI** (`npm install -g @angular/cli`)
 * **Maven** (for backend dependency management)
+* **MySQL Server** running locally
 
 ### Backend Setup (Spring Boot)
 1. **Database Prerequisite:** Ensure MySQL is installed and running. Create a schema named `reimbursement_db`:
@@ -74,3 +66,14 @@ The API will be available at http://localhost:8080.
 ### Default Credentials (Test Environment)
 * Manager Access: Username: admin / Password: password
 * Employee Access: Username: user1 / Password: password
+
+---
+
+### Future Improvements
+* **Cloud Storage Migration:** Moving from Base64 database storage to **AWS S3** or **Google Cloud Storage** for improved scalability.
+* **Analytics Dashboard:** Adding charts (using Chart.js) to visualize spending trends by department or user.
+* **Email Notifications:** Integrating Spring Mail to notify employees automatically when a manager updates their request status.
+
+### Technical Notes
+* **UI Synchronization:** Encountered an issue where the table wouldn't update after API calls despite the data being present in the console. 
+* **Fix:** Implemented `ChangeDetectorRef.detectChanges()` in the subscription callback to force a view refresh.
