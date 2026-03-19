@@ -51,6 +51,7 @@ The UI dynamically adapts based on the authenticated user's permissions:
 4. Run the application:
 ```bash
    mvn spring-boot:run
+```
 The API will be available at http://localhost:8080.
 
 ### Frontend Setup (Angular)
