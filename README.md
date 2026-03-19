@@ -69,8 +69,6 @@ The API will be available at http://localhost:8080.
 
 ---
 
----
-
 ## Technical Notes
 
 ### UI Synchronization & Change Detection
