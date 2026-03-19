@@ -1,4 +1,8 @@
-## Reimbursement System Key Features:
+# Reimbursement Management System
+
+A full-stack application designed to streamline the submission, tracking, and approval of employee business expenses.
+
+## Key Features:
 
 ### 1. Robust Type Safety (Full-Stack Enums)
 To prevent data corruption and "magic string" errors, I implemented a unified **Status Enum** (`PENDING`, `APPROVED`, `DENIED`) across the entire stack.
@@ -18,7 +22,7 @@ The UI dynamically adapts based on the authenticated user's permissions:
 
 ---
 
-### Tech Stack
+## Tech Stack
 * **Frontend:** Angular 17+ (Standalone Components, Event Binding)
 * **Backend:** Java 17, Spring Boot 3, Spring Data JPA
 * **Database:** MySQL 8.0+
@@ -81,7 +85,7 @@ The API will be available at http://localhost:8080.
 
 ---
 
-### Future Improvements
+## Future Improvements
 * **Cloud Storage Migration:** Moving from Base64 database storage to **AWS S3** or **Google Cloud Storage** for improved scalability.
 * **Analytics Dashboard:** Adding charts (using Chart.js) to visualize spending trends by department or user.
 * **Email Notifications:** Integrating Spring Mail to notify employees automatically when a manager updates their request status.
