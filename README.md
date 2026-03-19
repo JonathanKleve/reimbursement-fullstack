@@ -33,3 +33,36 @@ The UI dynamically adapts based on the authenticated user's permissions:
 ### Technical Notes
 * **UI Synchronization:** Encountered an issue where the table wouldn't update after API calls despite the data being present in the console. 
 * **Fix:** Implemented `ChangeDetectorRef.detectChanges()` in the subscription callback to force a view refresh.
+
+## Getting Started
+
+### Prerequisites
+* **Java Development Kit (JDK) 17** or higher
+* **Node.js** (v18.x or v20.x recommended) and **npm**
+* **Angular CLI** (`npm install -g @angular/cli`)
+* **Maven** (for backend dependency management)
+
+### Backend Setup (Spring Boot)
+1. Navigate to the `/backend` directory.
+2. Configure your database settings in `src/main/resources/application.properties` (defaults to H2 in-memory database).
+3. Build the project using Maven:
+   ```bash
+   mvn clean install
+4. Run the application:
+```bash
+   mvn spring-boot:run
+The API will be available at http://localhost:8080.
+
+### Frontend Setup (Angular)
+1. Navigate to the /frontend directory.
+2. Install the required dependencies:
+```bash
+npm install
+3. Start the development server:
+```bash
+ng serve
+4. Open your browser and navigate to http://localhost:4200.
+
+### Default Credentials (Test Environment)
+* Manager Access: Username: admin / Password: password
+* Employee Access: Username: user1 / Password: password
