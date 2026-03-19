@@ -43,13 +43,17 @@ The UI dynamically adapts based on the authenticated user's permissions:
 * **Maven** (for backend dependency management)
 
 ### Backend Setup (Spring Boot)
-1. Navigate to the `/backend` directory.
-2. Configure your database settings in `src/main/resources/application.properties` (defaults to H2 in-memory database).
-3. Build the project using Maven:
+1. **Database Prerequisite:** Ensure MySQL is installed and running. Create a schema named `reimbursement_db`:
+   ```sql
+   CREATE DATABASE reimbursement_db;
+   ```
+2. Navigate to the /backend directory.
+3. Update src/main/resources/application.properties with your MySQL root password if it differs from the default.
+4. Build the project using Maven:
    ```bash
    mvn clean install
    ```
-4. Run the application:
+5. Run the application:
    ```bash
    mvn spring-boot:run
    ```
