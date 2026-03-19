@@ -18,14 +18,14 @@ The UI dynamically adapts based on the authenticated user's permissions:
 
 ---
 
-### 🛠️ Tech Stack
+### Tech Stack
 * **Frontend:** Angular 17+ (Standalone Components, Event Binding)
 * **Backend:** Java 17, Spring Boot 3, Spring Data JPA
 * **Database:** MySQL / H2 (Storing Base64 strings as `LONGTEXT`)
 
 ---
 
-### 📈 Future Improvements
+### Future Improvements
 * **Cloud Storage Migration:** Moving from Base64 database storage to **AWS S3** or **Google Cloud Storage** for improved scalability.
 * **Analytics Dashboard:** Adding charts (using Chart.js) to visualize spending trends by department or user.
 * **Email Notifications:** Integrating Spring Mail to notify employees automatically when a manager updates their request status.
