@@ -48,20 +48,23 @@ The UI dynamically adapts based on the authenticated user's permissions:
 3. Build the project using Maven:
    ```bash
    mvn clean install
+   ```
 4. Run the application:
-```bash
+   ```bash
    mvn spring-boot:run
-```
+   ```
 The API will be available at http://localhost:8080.
 
 ### Frontend Setup (Angular)
 1. Navigate to the /frontend directory.
 2. Install the required dependencies:
-```bash
-npm install
+   ```bash
+   npm install
+   ```
 3. Start the development server:
-```bash
-ng serve
+   ```bash
+   ng serve
+   ```
 4. Open your browser and navigate to http://localhost:4200.
 
 ### Default Credentials (Test Environment)
